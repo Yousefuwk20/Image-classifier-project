@@ -67,27 +67,25 @@ def load_model (arch, hidden_units):
         for param in model.parameters():
             param.requires_grad = False
         if hidden_units:
-            classifier = nn.Sequential  (OrderedDict ([
-                            ('fc1', nn.Linear (25088, 4096)),
-                            ('relu1', nn.ReLU ()),
-                            ('dropout1', nn.Dropout (p = 0.3)),
-                            ('fc2', nn.Linear (4096, hidden_units)),
-                            ('relu2', nn.ReLU ()),
-                            ('dropout2', nn.Dropout (p = 0.3)),
-                            ('fc3', nn.Linear (hidden_units, 102)),
-                            ('output', nn.LogSoftmax (dim =1))
-                            ]))
+            classifier = nn.Sequential( nn.Linear(9216, 4096),
+                            nn.ReLU(),
+                            nn.Dropout(p=0.3),
+                            nn.Linear(4096, hidden_units),
+                            nn.ReLU(),
+                            nn.Dropout(p=0.3),
+                            nn.Linear(hidden_units, 102),
+                            nn.LogSoftmax(dim=1)
+                          )
         else:
-            classifier = nn.Sequential  (OrderedDict ([
-                        ('fc1', nn.Linear (25088, 4096)),
-                        ('relu1', nn.ReLU ()),
-                        ('dropout1', nn.Dropout (p = 0.3)),
-                        ('fc2', nn.Linear (4096, 2048)),
-                        ('relu2', nn.ReLU ()),
-                        ('dropout2', nn.Dropout (p = 0.3)),
-                        ('fc3', nn.Linear (2048, 102)),
-                        ('output', nn.LogSoftmax (dim =1))
-                        ]))
+            classifier = nn.Sequential( nn.Linear(9216, 4096),
+                            nn.ReLU(),
+                            nn.Dropout(p=0.3),
+                            nn.Linear(4096, 2048),
+                            nn.ReLU(),
+                            nn.Dropout(p=0.3),
+                            nn.Linear(2048, 102),
+                            nn.LogSoftmax(dim=1)
+                          )
     else:
         arch = 'alexnet' 
         model = models.alexnet (pretrained = True)
